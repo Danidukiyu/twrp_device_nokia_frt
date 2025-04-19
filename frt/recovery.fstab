@@ -1,0 +1,48 @@
+# TWRP Recovery Fstab for Nokia 1 (FRT) - Based on Stock Recovery Fstab
+# Created based on analysis on Saturday, April 19, 2025, 11:10 AM +0530 in Colombo, Sri Lanka.
+# <src>                                                        <mount_point>  <type>  <mount_flags and options>                         <fs_mgr_flags>
+
+# Core Partitions (Filesystems)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/system    /system        ext4    defaults                                          defaults;display="System";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/vendor    /vendor        ext4    defaults                                          defaults;display="Vendor";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/cache     /cache         ext4    noatime,nosuid,nodev,noauto_da_alloc,discard      defaults;display="Cache";backup=1;wipeingui
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/userdata  /data          f2fs    noatime,nosuid,nodev,discard                      defaults;display="Data";backup=1;wipeingui;length=-16384;fileencryption=ice
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/metadata  /metadata      ext4    defaults                                          defaults;display="Metadata";backup=1;formattable
+
+# Core Partitions (Raw/Firmware)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/boot      /boot          emmc    defaults                                          defaults;display="Boot";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/recovery  /recovery      emmc    defaults                                          defaults;display="Recovery";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/lk        /bootloader    emmc    defaults                                          defaults;display="Bootloader";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/dtbo      /dtbo          emmc    defaults                                          defaults;display="DTBO";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/odmdtbo   /odmdtbo       emmc    defaults                                          defaults;display="ODM DTBO";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/logo      /logo          emmc    defaults                                          defaults;display="Logo";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/para      /misc          emmc    defaults                                          defaults;display="Misc"
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/tee1      /tee1          emmc    defaults                                          defaults;display="Tee1";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/tee2      /tee2          emmc    defaults                                          defaults;display="Tee2";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/secro     /secro         emmc    defaults                                          defaults;display="Secro";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/seccfg    /seccfg        emmc    defaults                                          defaults;display="Seccfg";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/expdb     /expdb         emmc    defaults                                          defaults;display="Expdb";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/frp       /persistent    emmc    defaults                                          defaults;display="FRP"
+
+# NV Partitions (Critical - Include for Backup!)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/nvram     /nvram         emmc    defaults                                          defaults;display="Nvram";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/proinfo   /proinfo       emmc    defaults                                          defaults;display="Protect Info";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/nvdata    /nvdata        ext4    noatime,nosuid,nodev,noauto_da_alloc,discard      defaults;display="Nvdata";backup=1;wipeingui
+
+# Protect Partitions (Optional but Recommended for Backup)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/protect1  /protect_f     ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1     defaults;display="Protect1";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/protect2  /protect_s     ext4    noatime,nosuid,nodev,noauto_da_alloc,commit=1     defaults;display="Protect2";backup=1
+
+# Preloader Partitions (Raw - Optional but Recommended for Backup/Flash)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/mmcblk0boot0     /preloader     emmc    defaults                                          defaults;display="Preloader";backup=1;flashimg=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/mmcblk0boot1     /preloader2    emmc    defaults                                          defaults;display="Preloader2";backup=1;flashimg=1
+
+# Other Optional Partitions (Include if backup/access might be useful)
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/box       /box           ext4    noatime,nosuid,nodev,barrier=1                    defaults;display="Box";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/cda       /cda           ext4    noatime,nosuid,nodev,noauto_da_alloc,discard      defaults;display="CDA";backup=1
+/dev/block/platform/mtk-msdc.0/11230000.msdc0/by-name/elabel    /elabel        ext4    noatime,nosuid,nodev,noauto_da_alloc,discard      defaults;display="Elabel";backup=1
+
+# External Storage (Paths need verification during testing!)
+# Using common paths as stock fstab uses vold paths which TWRP doesn't parse directly
+/dev/block/mmcblk1p1                                          /external_sd   auto    defaults                                          defaults;display="MicroSD Card";storage;wipeingui;removable
+/dev/block/sda1                                               /usb_otg       auto    defaults                                          defaults;display="USB OTG";storage;wipeingui;removable
