@@ -38,11 +38,16 @@ jobs:
       - name: Install build dependencies
         run: |
           sudo apt-get update
+          # Enable i386 architecture for 32-bit libraries required by multilib
+          sudo dpkg --add-architecture i386
+          sudo apt-get update 
+          # Install dependencies using current package names
           sudo apt-get install -y --no-install-recommends \
               bc bison build-essential ccache curl flex g++-multilib gcc-multilib \
-              git git-lfs gnupg gperf imagemagick lib32ncurses5-dev lib32readline-dev \
-              lib32z1-dev libelf-dev liblz4-tool libncurses5 libncurses5-dev \
+              git git-lfs gnupg gperf imagemagick \
+              libreadline-dev:i386 libz-dev:i386 libncurses-dev libncurses-dev:i386 \
               libsdl1.2-dev libssl-dev libwxgtk3.2-dev libxml2 libxml2-utils \
+              libelf-dev liblz4-tool \
               lzop pngcrush rsync schedtool squashfs-tools xsltproc zip zlib1g-dev \
               python3 python-is-python3 repo android-sdk-libsparse-utils p7zip-full \
               libarchive-tools
